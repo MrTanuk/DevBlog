@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import type { Post } from '../types';
 import { Edit3, Trash2 } from 'lucide-react';
@@ -62,7 +63,7 @@ export function Home() {
           
           <div 
             className="text-zinc-300 leading-relaxed line-clamp-3 overflow-hidden text-ellipsis mb-4"
-            dangerouslySetInnerHTML={{ __html: post.content }} 
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} 
           />
           
           {/* Edited Tag positioned at bottom right */}
