@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -10,21 +10,10 @@ export function CreatePost() {
   const [posts, setPosts] = useLocalStorage<Post[]>('blog-posts', []);
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-
-  // Load existing post if editing
-  useEffect(() => {
-    if (id) {
-      const existingPost = posts.find(p => p.id === id);
-      if (existingPost) {
-        setTitle(existingPost.title);
-        setContent(existingPost.content);
-        setIsEditing(true);
-      }
-    }
-  }, [id, posts]);
+  const existingPost = id ? posts.find(p => p.id === id) : undefined;
+  const [title, setTitle] = useState(existingPost?.title ?? '');
+  const [content, setContent] = useState(existingPost?.content ?? '');
+  const isEditing = !!existingPost;
 
   const handlePublish = (e: React.FormEvent) => {
     e.preventDefault();
