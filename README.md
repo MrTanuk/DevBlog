@@ -1,41 +1,69 @@
 # DevBlog
 
-Blog personal construido con React + TypeScript + Vite + Tailwind CSS.
+Blog personal para publicar artículos técnicos. Incluye una sección interactiva de Anime que consulta el top de MyAnimeList y permite buscar animes por nombre.
 
-## Tecnologías
+## Features
 
-- **React 19** con TypeScript
-- **Vite 8** como bundler
-- **Tailwind CSS v4** para estilos
-- **React Router v7** para navegación
-- **Lucide React** para iconos
-- **react-quill-new** para editor WYSIWYG
-- **DOMPurify** para sanitización de HTML
+- Crear, editar y eliminar posts con editor WYSIWYG
+- Sección **/anime** con top de MyAnimeList (Jikan API)
+- Buscador de animes por nombre con resultados en tiempo real
+- Modal con información detallada de cada anime
+- Skeleton loading, manejo de errores, diseño responsivo
 
-## Integración con API externa
+## Stack
 
-### Jikan API (MyAnimeList)
+- **React 19** + TypeScript
+- **Vite 8**
+- **Tailwind CSS v4**
+- **React Router v7**
+- **Lucide React** (iconos)
 
-La sección **/anime** consume la [Jikan API](https://jikan.moe/) (versión 4), una API no oficial de MyAnimeList que no requiere autenticación.
-
-- **Endpoint usado**: `GET /v4/top/anime?limit=6`
-- **Sin API key**: Jikan es gratuita
-- **Rate limit**: 30 requests por minuto (suficiente para un blog personal).
-
-### Manejo de estados
-
-| Estado | Componente | Descripción |
-|---|---|---|
-| Cargando | `Preloader` | Spinner animado con `Loader2` de Lucide |
-| Error | Bloque con `AlertCircle` + botón de reintento | Muestra el mensaje de error HTTP |
-| Éxito | Grid de `AnimeCard` | Tarjetas con imagen, score, géneros, episodios y año |
-
-
-## Scripts disponibles
+## Getting started
 
 ```bash
-pnpm dev        # Inicia servidor de desarrollo
-pnpm build      # Compila TypeScript + Vite build
-pnpm lint       # Ejecuta ESLint
-pnpm preview    # Vista previa del build
+pnpm install
+pnpm dev
 ```
+
+Abri [http://localhost:5173](http://localhost:5173).
+
+### Scripts
+
+| Comando | Descripción |
+|---|---|
+| `pnpm dev` | Inicia servidor de desarrollo |
+| `pnpm build` | Compila TypeScript + Vite build |
+| `pnpm lint` | Ejecuta ESLint |
+| `pnpm preview` | Vista previa del build |
+
+## Project structure
+
+```
+src/
+├── components/   Layout.tsx
+├── hooks/        useLocalStorage.ts, useJikan.ts
+├── pages/        Home.tsx, CreatePost.tsx, Anime.tsx
+├── types.ts      Interfaces
+├── App.tsx       Rutas
+├── main.tsx      Entry point
+└── index.css     Estilos globales + animaciones
+```
+
+## API
+
+Sección */anime* consume [Jikan API v4](https://jikan.moe/) (no requiere API key).
+
+| Endpoint | Uso |
+|---|---|
+| `GET /v4/top/anime?limit=6` | Top animes |
+| `GET /v4/anime?q={query}&limit=6&order_by=score&sort=desc&sfw` | Búsqueda |
+
+## Routes
+
+| Ruta | Página |
+|---|---|
+| `/` | Home — listado de posts |
+| `/create` | Crear post |
+| `/edit/:id` | Editar post |
+| `/anime` | Top Anime + buscador |
+
